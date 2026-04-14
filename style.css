@@ -1,0 +1,170 @@
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    font-family: 'Share Tech Mono', monospace;
+    user-select: none;
+    color: #00f3ff;
+    /* Remplacer par transparent pour FiveM */
+    background-color: transparent; 
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* --- POSITIONNEMENT IG (HUD HAUT DROITE) --- */
+#incoming-call, #holo-active {
+    position: absolute;
+    top: 5vh;
+    right: 2vw; /* 2% du bord droit */
+    width: 380px; /* Plus petit pour ne pas cacher la vue */
+}
+
+/* --- APPEL ENTRANT --- */
+#incoming-call {
+    background: rgba(10, 10, 15, 0.9);
+    border: 2px solid #ff003c;
+    box-shadow: 0 0 15px rgba(255, 0, 60, 0.4);
+    padding: 20px;
+    clip-path: polygon(0 0, 100% 0, 100% 85%, 90% 100%, 0 100%);
+    animation: pulse-border 1.5s infinite alternate;
+}
+
+.caller-name {
+    font-size: 24px;
+    color: #fff;
+    margin: 15px 0;
+    text-shadow: 0 0 5px #00f3ff;
+    text-align: center;
+}
+
+.actions {
+    display: flex;
+    justify-content: space-between;
+}
+
+/* --- HOLO FRAME (Appel Actif) --- */
+#holo-active {
+    height: 550px; /* Zone où le Ped sera visible en jeu */
+    background: radial-gradient(circle, rgba(0,243,255,0.1) 0%, rgba(0,0,0,0.6) 100%);
+    border: 1px solid rgba(0, 243, 255, 0.4);
+    box-shadow: 0 0 25px rgba(0, 243, 255, 0.2) inset;
+    pointer-events: auto;
+}
+
+.scanlines {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,243,255,0.1) 50%, rgba(0,243,255,0.1));
+    background-size: 100% 4px;
+    opacity: 0.6;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Bordures Cyberpunk */
+.corner {
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    border: 3px solid #00f3ff;
+    z-index: 2;
+}
+.top-left { top: -2px; left: -2px; border-right: none; border-bottom: none; }
+.top-right { top: -2px; right: -2px; border-left: none; border-bottom: none; }
+.bottom-left { bottom: -2px; left: -2px; border-right: none; border-top: none; }
+.bottom-right { bottom: -2px; right: -2px; border-left: none; border-top: none; }
+
+.holo-header {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 15px;
+    background: rgba(0, 243, 255, 0.15);
+    border-bottom: 2px solid #00f3ff;
+    font-size: 14px;
+}
+
+/* Mini Caméra Joueur (PIP) */
+.pip-camera {
+    position: absolute;
+    top: 50px;
+    right: 10px;
+    width: 90px;
+    height: 120px;
+    border: 1px solid rgba(255, 0, 60, 0.5);
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pip-text {
+    font-size: 10px;
+    color: #ff003c;
+    transform: rotate(-90deg);
+    opacity: 0.7;
+}
+
+.holo-footer {
+    position: absolute;
+    bottom: 15px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    z-index: 2;
+}
+
+/* --- BOUTONS --- */
+.cyber-button {
+    background: rgba(0, 0, 0, 0.8);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 14px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    outline: none;
+}
+
+.accept-btn {
+    color: #00f3ff;
+    border: 1px solid #00f3ff;
+    width: 48%;
+}
+.accept-btn:hover { background: #00f3ff; color: #000; box-shadow: 0 0 15px #00f3ff; }
+
+.decline-btn {
+    color: #ff003c;
+    border: 1px solid #ff003c;
+    width: 48%;
+}
+.decline-btn:hover { background: #ff003c; color: #000; box-shadow: 0 0 15px #ff003c; }
+
+.end-btn {
+    color: #ff003c;
+    border: 1px solid #ff003c;
+    width: 80%;
+    clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+}
+.end-btn:hover { background: #ff003c; color: #000; box-shadow: 0 0 15px #ff003c; }
+
+/* --- ANIMATIONS --- */
+.glitch-text { animation: glitch 2s infinite; }
+@keyframes glitch {
+    0% { text-shadow: 2px 0 red, -2px 0 blue; }
+    5% { text-shadow: -2px 0 red, 2px 0 blue; }
+    10% { text-shadow: 2px 0 red, -2px 0 blue; }
+    15% { text-shadow: none; }
+    100% { text-shadow: none; }
+}
+
+@keyframes pulse-border {
+    0% { box-shadow: 0 0 10px rgba(255, 0, 60, 0.2); }
+    100% { box-shadow: 0 0 25px rgba(255, 0, 60, 0.8); }
+}

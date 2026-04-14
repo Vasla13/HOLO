@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyberpunk HoloCall UI</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="incoming-call" class="hidden">
+        <div class="glitch-effect">INCOMING CALL...</div>
+        <div class="caller-name" id="caller-name">UNKNOWN ID</div>
+        <div class="actions">
+            <button id="btn-accept" class="cyber-button accept-btn">ACCEPTER</button>
+            <button id="btn-decline" class="cyber-button decline-btn">REFUSER</button>
+        </div>
+    </div>
+
+    <div id="holo-active" class="hidden">
+        <div class="scanlines"></div>
+        
+        <div class="holo-frame">
+            <div class="corner top-left"></div>
+            <div class="corner top-right"></div>
+            <div class="corner bottom-left"></div>
+            <div class="corner bottom-right"></div>
+            
+            <div class="holo-header">
+                <span class="glitch-text" data-text="LINK ESTABLISHED">LINK ESTABLISHED</span>
+                <span class="timer" id="call-timer">00:00</span>
+            </div>
+
+            <div class="pip-camera">
+                <span class="pip-text">LOCAL_CAM_OFF</span>
+            </div>
+
+            <div class="holo-footer">
+                <button id="btn-end" class="cyber-button end-btn">TERMINER</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
