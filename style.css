@@ -7,6 +7,12 @@
     --dark: rgba(10, 10, 15, 0.85);
     --font-mono: 'Share Tech Mono', monospace;
     --font-title: 'Rajdhani', sans-serif;
+    
+    /* Variables Cyberpunk 2077 */
+    --cp-yellow: #fce300;
+    --cp-blue: #08d9d6;
+    --cp-red: #ff2a2a;
+    --cp-dark: rgba(9, 10, 15, 0.85);
 }
 
 body {
@@ -14,14 +20,12 @@ body {
     padding: 0;
     overflow: hidden;
     user-select: none;
-    /* transparent pour FiveM, noir pour test web */
-    background-color: transparent; 
+    background-color: transparent;
 }
 
-/* Utilitaires d'état gérés par JS */
 .hidden { display: none !important; }
 
-/* --- CONTENEUR PRINCIPAL (Haut Droite) --- */
+/* --- CONTENEUR PRINCIPAL --- */
 #ui-container {
     position: absolute;
     top: 5vh;
@@ -35,13 +39,10 @@ body {
 .module { width: 100%; }
 
 /* =========================================
-   ANIMATIONS CLÉS (Performances 60fps)
+   ANIMATIONS CLÉS
 ========================================= */
 
-/* 1. Entrée Slide & Glitch (Appel entrant) */
-.anim-slide-in {
-    animation: slideInGlitch 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-}
+.anim-slide-in { animation: slideInGlitch 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; }
 @keyframes slideInGlitch {
     0% { transform: translateX(120%); opacity: 0; clip-path: polygon(0 0, 100% 0, 100% 10%, 0 20%); }
     60% { transform: translateX(-5%); opacity: 1; clip-path: polygon(0 20%, 100% 10%, 100% 100%, 0 100%); }
@@ -49,32 +50,26 @@ body {
     100% { transform: translateX(0); clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
 }
 
-/* 2. Déploiement Holo (Appel accepté) */
-.anim-unfold {
-    animation: holoUnfold 0.5s ease-out forwards;
-}
+.anim-unfold { animation: holoUnfold 0.5s ease-out forwards; }
 @keyframes holoUnfold {
     0% { transform: scaleY(0.01) scaleX(0.5); opacity: 0; }
-    50% { transform: scaleY(0.01) scaleX(1); opacity: 1; box-shadow: 0 0 50px var(--cyan); }
+    50% { transform: scaleY(0.01) scaleX(1); opacity: 1; box-shadow: 0 0 50px var(--cp-blue); }
     100% { transform: scaleY(1) scaleX(1); opacity: 1; }
 }
 
-/* 3. Fermeture CRT (Raccrocher) */
-.anim-crt-off {
-    animation: crtTurnOff 0.4s cubic-bezier(0.23, 1, 0.32, 1) forwards;
-}
+.anim-crt-off { animation: crtTurnOff 0.4s cubic-bezier(0.23, 1, 0.32, 1) forwards; }
 @keyframes crtTurnOff {
     0% { transform: scale(1, 1); opacity: 1; }
     40% { transform: scale(1, 0.01); opacity: 1; background: #fff; }
     100% { transform: scale(0, 0); opacity: 0; }
 }
 
+@keyframes pulse-red { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
 
 /* =========================================
-   DESIGN DES MODULES
+   APPEL ENTRANT
 ========================================= */
-
-/* --- APPEL ENTRANT --- */
 .incoming-wrapper {
     background: var(--dark);
     border-left: 4px solid var(--red);
@@ -84,125 +79,113 @@ body {
     backdrop-filter: blur(5px);
 }
 
-.glitch-effect {
-    font-family: var(--font-title);
-    font-weight: 700;
-    color: var(--red);
-    letter-spacing: 2px;
-    animation: pulse-red 2s infinite;
-}
-
-.caller-name {
-    font-family: var(--font-mono);
-    font-size: 28px;
-    color: #fff;
-    margin: 10px 0 20px 0;
-    text-shadow: 2px 2px 0px var(--cyan);
-}
-
+.glitch-effect { font-family: var(--font-title); font-weight: 700; color: var(--red); letter-spacing: 2px; animation: pulse-red 2s infinite; }
+.caller-name { font-family: var(--font-mono); font-size: 28px; color: #fff; margin: 10px 0 20px 0; text-shadow: 2px 2px 0px var(--cyan); }
 .actions { display: flex; gap: 10px; }
 
-/* --- HOLOGRAMME --- */
+.cyber-button { font-family: var(--font-title); font-weight: 700; font-size: 16px; letter-spacing: 1px; padding: 12px; cursor: pointer; transition: all 0.2s ease; border: none; text-transform: uppercase; position: relative; overflow: hidden; }
+.cyber-button::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent); transition: left 0.4s; }
+.cyber-button:hover::before { left: 100%; }
+
+.accept-btn { flex: 1; background: rgba(0, 243, 255, 0.1); color: var(--cyan); border: 1px solid var(--cyan); }
+.accept-btn:hover { background: var(--cyan); color: #000; box-shadow: 0 0 15px var(--cyan); }
+.decline-btn { flex: 1; background: rgba(255, 0, 60, 0.1); color: var(--red); border: 1px solid var(--red); }
+.decline-btn:hover { background: var(--red); color: #000; box-shadow: 0 0 15px var(--red); }
+
+/* =========================================
+   HOLOGRAMME ACTIF
+========================================= */
 .holo-wrapper {
     position: relative;
-    height: 550px;
-    background: linear-gradient(180deg, rgba(0,243,255,0.05) 0%, rgba(0,0,0,0.8) 100%);
-    border: 1px solid rgba(0, 243, 255, 0.3);
-    box-shadow: inset 0 0 30px rgba(0, 243, 255, 0.1);
-    backdrop-filter: blur(2px);
+    height: 500px;
+    /* CORRECTION ICI : Fond beaucoup plus sombre pour éliminer le halo blanc */
+    background: linear-gradient(180deg, rgba(10, 15, 20, 0.95) 0%, rgba(0, 0, 0, 0.98) 100%);
+    border-left: 2px solid var(--cp-blue);
+    border-right: 2px solid var(--cp-blue);
+    box-shadow: inset 0 0 20px rgba(8, 217, 214, 0.1);
+    backdrop-filter: blur(4px);
+    clip-path: polygon(30px 0, 100% 0, 100% calc(100% - 30px), calc(100% - 30px) 100%, 0 100%, 0 30px);
 }
 
 .scanlines {
-    position: absolute;
-    inset: 0;
-    background: repeating-linear-gradient(
-        0deg,
-        rgba(0, 0, 0, 0.1),
-        rgba(0, 0, 0, 0.1) 1px,
-        transparent 1px,
-        transparent 3px
-    );
-    pointer-events: none;
-    z-index: 1;
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1) 1px, transparent 1px, transparent 3px);
+    pointer-events: none; z-index: 1;
 }
 
-.holo-frame {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    z-index: 2;
+.cyber-grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(rgba(8, 217, 214, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(8, 217, 214, 0.1) 1px, transparent 1px);
+    background-size: 20px 20px; opacity: 0.3; z-index: 1; pointer-events: none;
 }
 
-.holo-header {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px 15px;
-    background: linear-gradient(90deg, rgba(0,243,255,0.2) 0%, transparent 100%);
+.holo-frame { 
+    position: absolute; inset: 0; 
+    display: flex; flex-direction: column; justify-content: space-between; z-index: 2; 
+    padding: 15px 15px 35px 15px; 
+}
+
+/* HUD DÉCORATIF */
+.hud-top-left, .hud-top-right { position: absolute; top: 8px; font-family: var(--font-mono); font-size: 10px; color: var(--cp-yellow); opacity: 0.7; }
+.hud-top-left { left: 40px; }
+.hud-top-right { right: 15px; }
+
+.holo-header { display: flex; justify-content: space-between; align-items: center; margin-top: 15px; padding-bottom: 5px; border-bottom: 1px solid rgba(8, 217, 214, 0.3); }
+
+.glitch-text { font-family: var(--font-title); font-size: 20px; color: var(--cp-blue); text-shadow: 2px 0 var(--cp-red), -2px 0 var(--cp-yellow); letter-spacing: 2px; font-weight: bold; }
+
+.timer-container { display: flex; align-items: baseline; gap: 5px; background: rgba(252, 227, 0, 0.1); padding: 2px 10px; border-left: 3px solid var(--cp-yellow); }
+.timer-label { font-family: var(--font-mono); font-size: 10px; color: var(--cp-yellow); }
+.cp-yellow { color: var(--cp-yellow) !important; font-size: 18px; font-family: var(--font-mono); font-weight: bold; text-shadow: 0 0 5px rgba(252, 227, 0, 0.5); }
+
+/* ZONE CENTRALE (Audio) */
+.holo-center-display { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; margin: 20px 0; }
+
+.target-bracket { position: absolute; width: 30px; height: 30px; border: 2px solid rgba(8, 217, 214, 0.5); }
+.target-bracket.top-left { top: 15%; left: 10%; border-right: none; border-bottom: none; }
+.target-bracket.bottom-right { bottom: 15%; right: 10%; border-left: none; border-top: none; }
+
+.voice-visualizer { display: flex; gap: 4px; align-items: flex-end; height: 60px; }
+/* Ombre des barres réduite pour éviter d'éclairer tout le fond */
+.voice-visualizer .bar { width: 8px; background: var(--cp-blue); box-shadow: 0 0 5px var(--cp-blue); animation: eq 1s infinite alternate ease-in-out; }
+.voice-visualizer .bar:nth-child(1) { height: 20%; animation-delay: 0.1s; }
+.voice-visualizer .bar:nth-child(2) { height: 50%; animation-delay: 0.3s; }
+.voice-visualizer .bar:nth-child(3) { height: 90%; animation-delay: 0.0s; }
+.voice-visualizer .bar:nth-child(4) { height: 40%; animation-delay: 0.4s; }
+.voice-visualizer .bar:nth-child(5) { height: 70%; animation-delay: 0.2s; }
+.voice-visualizer .bar:nth-child(6) { height: 30%; animation-delay: 0.5s; }
+.voice-visualizer .bar:nth-child(7) { height: 60%; animation-delay: 0.1s; }
+
+@keyframes eq { 0% { transform: scaleY(0.3); } 100% { transform: scaleY(1); } }
+
+.holo-status {
+    margin-top: 20px;
     font-family: var(--font-mono);
-    color: var(--cyan);
-    border-bottom: 1px solid var(--cyan);
+    color: var(--cp-blue);
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 3px;
+    text-shadow: 0 0 5px var(--cp-blue);
+    /* CORRECTION ICI : Ajout d'une plaque noire pour la lisibilité */
+    background: rgba(0, 0, 0, 0.7);
+    padding: 6px 15px;
+    border: 1px solid rgba(8, 217, 214, 0.2);
+    border-radius: 3px;
+    animation: blink 2s infinite;
 }
 
-.pip-camera {
-    position: absolute;
-    top: 50px; right: 15px;
-    width: 80px; height: 110px;
-    border: 1px solid var(--red);
-    background: repeating-linear-gradient(45deg, rgba(255,0,60,0.1), rgba(255,0,60,0.1) 2px, transparent 2px, transparent 4px);
-    display: flex;
-    align-items: flex-end;
-    justify-content: flex-start;
-    padding: 5px;
-    box-sizing: border-box;
+/* FOOTER & BOUTON DÉCONNECTER */
+.holo-footer { display: flex; flex-direction: column; gap: 10px; }
+.data-stream { font-family: var(--font-mono); font-size: 10px; color: rgba(8, 217, 214, 0.5); align-self: flex-start; }
+
+.cp-end-btn {
+    width: 100%;
+    background: rgba(255, 42, 42, 0.1);
+    border: 1px solid var(--cp-red);
+    color: var(--cp-red);
+    text-shadow: 0 0 5px rgba(255, 42, 42, 0.5);
+    clip-path: polygon(0 0, 97% 0, 100% 30%, 100% 100%, 3% 100%, 0 70%);
+    transition: all 0.2s;
 }
 
-.pip-text { font-family: var(--font-mono); font-size: 10px; color: var(--red); }
-.red-dot { width: 6px; height: 6px; background: var(--red); border-radius: 50%; margin-left: 5px; margin-bottom: 2px; animation: blink 1s infinite; }
-
-.holo-footer { padding: 15px; text-align: center; }
-
-/* --- BOUTONS CYBER --- */
-.cyber-button {
-    font-family: var(--font-title);
-    font-weight: 700;
-    font-size: 16px;
-    letter-spacing: 1px;
-    padding: 12px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    border: none;
-    text-transform: uppercase;
-    position: relative;
-    overflow: hidden;
-}
-
-.cyber-button::before {
-    content: '';
-    position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-    transition: left 0.4s;
-}
-.cyber-button:hover::before { left: 100%; }
-
-.accept-btn {
-    flex: 1;
-    background: rgba(0, 243, 255, 0.1);
-    color: var(--cyan);
-    border: 1px solid var(--cyan);
-}
-.accept-btn:hover { background: var(--cyan); color: #000; box-shadow: 0 0 15px var(--cyan); }
-
-.decline-btn, .end-btn {
-    flex: 1;
-    background: rgba(255, 0, 60, 0.1);
-    color: var(--red);
-    border: 1px solid var(--red);
-}
-.decline-btn:hover, .end-btn:hover { background: var(--red); color: #000; box-shadow: 0 0 15px var(--red); }
-.end-btn { width: 100%; clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px); }
-
-/* --- KEYFRAMES DIVERS --- */
-@keyframes pulse-red { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
-@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+.cp-end-btn:hover { background: var(--cp-red); color: #fff; box-shadow: 0 0 20px var(--cp-red); text-shadow: none; }

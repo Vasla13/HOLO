@@ -23,25 +23,42 @@
         <div id="holo-active" class="module hidden">
             <div class="holo-wrapper">
                 <div class="scanlines"></div>
+                <div class="cyber-grid"></div>
                 
                 <div class="holo-frame">
-                    <div class="corner top-left"></div>
-                    <div class="corner top-right"></div>
-                    <div class="corner bottom-left"></div>
-                    <div class="corner bottom-right"></div>
+                    <div class="hud-top-left">SYS.VER // 2.0.77</div>
+                    <div class="hud-top-right">UPLINK_SECURE</div>
                     
                     <div class="holo-header">
-                        <span class="cyber-text">SECURE LINK</span>
-                        <span class="timer" id="call-timer">00:00</span>
+                        <span class="cyber-text glitch-text" data-text="LINK_ESTABLISHED">LINK_ESTABLISHED</span>
+                        <div class="timer-container">
+                            <span class="timer-label">DUR.</span>
+                            <span class="timer cp-yellow" id="call-timer">00:00</span>
+                        </div>
                     </div>
 
-                    <div class="pip-camera">
-                        <span class="pip-text">REC</span>
-                        <div class="red-dot"></div>
+                    <div class="holo-center-display">
+                        <div class="target-bracket top-left"></div>
+                        <div class="target-bracket bottom-right"></div>
+                        
+                        <div class="voice-visualizer">
+                            <div class="bar"></div>
+                            <div class="bar"></div>
+                            <div class="bar"></div>
+                            <div class="bar"></div>
+                            <div class="bar"></div>
+                            <div class="bar"></div>
+                            <div class="bar"></div>
+                        </div>
+                        <div class="holo-status">TRANSMISSION AUDIO_</div>
                     </div>
 
                     <div class="holo-footer">
-                        <button id="btn-end" class="cyber-button end-btn">COUPER TRANSMISSION</button>
+                        <div class="data-stream">0x7F4B92... AUTHENTICATED</div>
+                        <button id="btn-end" class="cyber-button end-btn cp-end-btn">
+                            <span class="btn-glitch-layer"></span>
+                            DÉCONNECTER
+                        </button>
                     </div>
                 </div>
             </div>
